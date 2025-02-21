@@ -1,33 +1,20 @@
-# trigger_todo.py
+# This script contains TODO comments to trigger warnings in GitHub Actions
 
-def fetch_data():
-    """
-    Function to fetch data from an API.
-    """
-    # TODO: Handle network failures properly (fixme)
-    response = None  # Simulating a failed response
-    
-    if response is None:
-        print("Warning: No response received")  # Simulating an error condition
-        return None
-    
-    return response.json()
-
-def process_data():
-    """
-    Function to process data.
-    """
-    data = fetch_data()
-    
-    # TODO: Implement data validation (fixme)
+def process_data(data):
+    # TODO: Handle edge cases where data is None
     if data is None:
-        print("Warning: No data to process")
-        return
+        print("Warning: No data provided")
     
-    # Simulated processing logic
-    processed_data = {"status": "success", "data": data}
-    return processed_data
+    # TODO: Improve error handling for invalid inputs
+    try:
+        return data.strip().lower()
+    except AttributeError:
+        return "Invalid data"
 
-# TODO: Optimize performance (fixme)
-if __name__ == "__main__":
-    process_data()
+# TODO: Optimize this function for large datasets
+def inefficient_loop(data_list):
+    for item in data_list:
+        print(item)
+
+process_data(None)
+inefficient_loop(["Item1", "Item2"])
