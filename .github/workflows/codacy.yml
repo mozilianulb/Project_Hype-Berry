@@ -40,7 +40,13 @@ jobs:
         run: |
           grep -rnI "TODO" . | awk '{print "::warning file=" $1 ",line=1:: TODO found"}'
 
-      - name: Upload SARIF results
-        uses: github/codeql-action/upload-sarif@v2
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v3
         with:
-          sarif_file: results.sarif
+          category: "/language:python"
+          output: "results.sarif"
+
+      - name: Upload SARIF results
+        uses: github/codeql-act
+
+     
