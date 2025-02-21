@@ -1,4 +1,4 @@
-name: Codacy Security Scan
+name: Code scanning / Prospector (reported by Codacy)
 
 on:
   push:
