@@ -1,7 +1,5 @@
 name: "Custom CodeQL Config"
-packs:
-  - codeql/python-queries
 disable-default-queries: false
 queries:
-  - uses: security-and-quality
-  - uses: codeql/python-queries
+  - uses: github/codeql/python-queries
+  - uses: github/codeql/security-and-quality
