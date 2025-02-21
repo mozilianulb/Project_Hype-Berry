@@ -1,0 +1,40 @@
+name: Prospector Code Scanning
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  prospector:
+    runs-on: ubuntu-latest
+    permissions:
+      security-events: write  # Required for SARIF upload
+      contents: read
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+
+      - name: Install Prospector & SARIF Converter
+        run: |
+          pip install prospector sarif-tools
+
+      - name: Run Prospector
+        run: |
+          prospector --output-format=json > prospector-report.json
+
+      - name: Convert Prospector JSON to SARIF
+        run: |
+          cat prospector-report.json | sarif-tools map > prospector-report.sarif
+
+      - name: Upload SARIF Report to GitHub
+        uses: github/codeql-action/upload-sarif@v2
+        with:
+          sarif_file: prospector-report.sarif
