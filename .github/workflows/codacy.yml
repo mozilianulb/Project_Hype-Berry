@@ -34,22 +34,27 @@ jobs:
           format: sarif
           gh-code-scanning-compat: true
           max-allowed-issues: 2147483647
+          github-code-scanning: true  # Ensures issues appear in GitHub Checks UI
 
-      # Custom step: Detect TODO comments
+      # Custom step: Detect TODO comments and show them in PR Checks
       - name: Detect TODOs
         run: |
-          grep -rnI "TODO" . | awk '{print "::warning file=" $1 ",line=1:: TODO found"}'
+          grep -rnI "TODO" . | while read -r line ; do
+            file=$(echo "$line" | cut -d':' -f1)
+            lineno=$(echo "$line" | cut -d':' -f2)
+            echo "::warning file=$file,line=$lineno:: TODO found"
+          done
 
       - name: Perform CodeQL Analysis
         uses: github/codeql-action/analyze@v3
         with:
           category: "/language:python"
           output: "results.sarif"
-          queries: security-and-quality
+          upload: true
 
       - name: Upload SARIF results
         uses: github/codeql-action/upload-sarif@v2
         with:
           sarif_file: results.sarif
+          checkout_path: ${{ github.workspace }}
 
-     
