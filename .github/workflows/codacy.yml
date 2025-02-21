@@ -45,6 +45,8 @@ jobs:
         with:
           category: "/language:python"
           output: "results.sarif"
+          queries: security-and-quality
+
 
       - name: Upload SARIF results
         uses: github/codeql-act
